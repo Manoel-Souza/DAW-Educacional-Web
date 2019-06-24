@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/templates.xhtml">
+        <ui:define name="titulo">Listagem de Aluno</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <!--p:messages/-->
+                <center>
+                    <h:graphicImage library="imagens" name="logoifsul.png" width="150" height="40" />
+                    <h1>Listagem de Aluno</h1>
+                </center>
+                
+                <p:growl/>
+                <p:commandButton value="Novo" 
+                                 action="#{controleAluno.novo()}" 
+                                 ajax="false"
+                                 icon="ui-icon-plus"/>
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem: "/>
+                        <p:selectOneMenu id="ordem"
+                                         value="#{controleAluno.dao.ordem}">
+                            <f:selectItem itemLabel="ID" itemValue="id"/>
+                            <f:selectItem itemLabel="Nome" itemValue="nome"/>
+                            <f:selectItem itemLabel="Email" itemValue="email"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro: "/>
+                        <p:inputText value="#{controleAluno.dao.filtro}">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar"
+                                         update="listagem"/>
+                        <p:outputLabel value="Máximo de Objetos: "/>
+                        <p:inputNumber value="#{controleAluno.dao.maximoObjetos}"
+                                       size="3"
+                                       thousandSeparator=""
+                                       decimalSeparator=""
+                                       decimalPlaces="0">
+                            <p:ajax event="keyup" update="listagem"/>
+                        </p:inputNumber>
+                        <p:commandButton actionListener="#{controleAluno.dao.primeiro()}"
+                                         title="Primeiro"
+                                         icon="ui-icon-seek-first"
+                                         update="listagem"/>
+                        <p:commandButton actionListener="#{controleAluno.dao.anterior()}"
+                                         title="Anterior"
+                                         icon="ui-icon-seek-prev"
+                                         update="listagem"/>
+                        <p:commandButton actionListener="#{controleAluno.dao.proximo()}"
+                                         title="Próximo"
+                                         icon="ui-icon-seek-next"
+                                         update="listagem"/>
+                        <p:commandButton actionListener="#{controleAluno.dao.ultimo()}"
+                                         title="Último"
+                                         icon="ui-icon-seek-end"
+                                         update="listagem"/>
+                    </p:panelGrid>
+                </div>
+                <p:dataTable value="#{controleAluno.dao.listaObjetos}" 
+                             var="item"
+                             id="listagem">
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleAluno.dao.mensagemNavegacao}"/>
+                    </f:facet>
+                    <p:column headerText="ID">
+                        <p:outputLabel value="#{item.id}"/>
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <p:outputLabel value="#{item.nome}"/>
+                    </p:column>
+                    <p:column headerText="Email">
+                        <p:outputLabel value="#{item.email}"/>
+                    </p:column>
+                    <p:column headerText="Nascimento">
+                        <p:outputLabel value="#{item.nascimento}">
+                            <f:converter converterId="converterCalendar"/> <!-- deixando em formato de data -->
+                        </p:outputLabel>                        
+                    </p:column>
+
+                    <p:column headerText="Ações">
+                        <p:commandButton action="#{controleAluno.editar(item.id)}"
+                                         ajax="false"
+                                         icon="ui-icon-pencil"
+                                         title="Editar"/>
+                        <p:commandButton action="#{controleAluno.remover(item.id)}"
+                                         icon="ui-icon-trash"
+                                         title="Remover"
+                                         update="@form"
+                                         ajax="false"
+                                         onclick="if(!confirm('Confirma a exclusão')) return false"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

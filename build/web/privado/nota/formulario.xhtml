@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/templates.xhtml">
+        <ui:define name="titulo">Cadastro da Nota</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <center>
+                    <h:graphicImage library="imagens" name="logoifsul.png" width="150" height="40" />
+                    <h1>Formulário de Dados da Nota</h1>
+                </center>
+                
+                <p:growl/>
+                <div align="center">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="Dados da Nota"/>
+                        </f:facet>
+
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Cancelar" 
+                                                 action="#{controleNota.cancelar()}"
+                                                 ajax="false"
+                                                 immediate="true"/>
+                                <p:commandButton value="Salvar"
+                                                 action="#{controleNota.salvar()}"
+                                                 ajax="false"
+                                                 icon="ui-icon-disk"/>
+
+                            </div>
+
+                        </f:facet>
+                        <p:outputLabel value="ID"/>
+                        <p:inputText value="#{controleNota.obj.id}"
+                                     readonly="true"
+                                     size="5"/>
+                        <p:outputLabel value="Aluno"/>
+                        <p:selectOneMenu id="selectAluno" 
+                                         value="#{controleNota.obj.aluno}"
+                                         filter="true"
+                                         filterMatchMode="startWith">
+                            <f:converter converterId="converterAluno" />
+                            <f:selectItem noSelectionOption="true"
+                                          itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleNota.daoAluno.listaObjetos}"
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Nota1"/>
+                        <p:inputText value="#{controleNota.obj.nota1}"/>
+                        <p:outputLabel value="Nota2"/>
+                        <p:inputText value="#{controleNota.obj.nota2}"/>
+                        <p:outputLabel value="Media"/>
+                        <p:inputText value="#{controleNota.obj.media}"/> 
+                        <p:outputLabel value="Disciplina"/>
+                        <p:selectOneMenu id="selectDisciplina" 
+                                         value="#{controleNota.obj.disciplina}"
+                                         filter="true"
+                                         filterMatchMode="startWith">
+                            <f:converter converterId="converterDisciplina" />
+                            <f:selectItem noSelectionOption="true"
+                                          itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleNota.daoDisciplina.listaObjetos}"
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
+                        </p:selectOneMenu> 
+                    </p:panelGrid>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

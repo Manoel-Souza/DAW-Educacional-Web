@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/templates.xhtml">
+        <ui:define name="titulo">Cadastro da Professor</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <center>
+                    <h:graphicImage library="imagens" name="logoifsul.png" width="150" height="40" />
+                    <h1>Formulário de Dados de Professores</h1>
+                </center>
+                
+                <p:growl/>
+                <div align="center">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="Dados da Professor"/>
+                        </f:facet>
+
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Cancelar" 
+                                                 action="#{controleProfessor.cancelar()}"
+                                                 ajax="false"
+                                                 immediate="true"/>
+                                <p:commandButton value="Salvar"
+                                                 action="#{controleProfessor.salvar()}"
+                                                 ajax="false"
+                                                 icon="ui-icon-disk"/>
+
+                            </div>
+
+                        </f:facet>
+                        <p:outputLabel value="ID"/>
+                        <p:inputText value="#{controleProfessor.obj.id}"
+                                     readonly="true"
+                                     size="5"/>
+                        <p:outputLabel value="Nome"/>
+                        <p:inputText value="#{controleProfessor.obj.nome}"/>
+                        <p:outputLabel value="Email"/>
+                        <p:inputText value="#{controleProfessor.obj.email}"/>
+                        <p:outputLabel value="Titulação"/>
+                        <p:inputText value="#{controleProfessor.obj.titulacao}"/>
+                        <p:outputLabel value="Topicos Interresse"/>
+                        <p:inputText value="#{controleProfessor.obj.topicosInterresse}"/>
+                        <p:outputLabel value="Especialidades"/>
+                        <p:selectOneMenu id="selectEspecialidades" 
+                                         value="#{controleProfessor.obj.especialidades}"
+                                         filter="true"
+                                         filterMatchMode="startWith">
+                            <f:converter converterId="converterEspecialidades" />
+                            <f:selectItem noSelectionOption="true"
+                                          itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleProfessor.daoEspecialidades.listaObjetos}"
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Data Nascimento"/>
+                        <p:calendar value="#{controleProfessor.obj.nascimento}"
+                                    id="txtdataNascimento" pattern="dd/MM/yyyy" 
+                                    navigator="true">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:calendar>
+   
+                    </p:panelGrid>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

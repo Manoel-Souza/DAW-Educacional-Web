@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/templates.xhtml">
+        <ui:define name="titulo">Cadastro da Disciplina</ui:define>
+        <ui:define name="conteudo">
+            <h:form>
+                <center>
+                    <h:graphicImage library="imagens" name="logoifsul.png" width="150" height="40" />
+                    <h1>Formulário de Dados da Disciplina</h1>
+                </center>
+                
+                <p:growl/>
+                <div align="center">
+                    <p:panelGrid columns="2">
+                        <f:facet name="header">
+                            <p:outputLabel value="Dados da Disciplina"/>
+                        </f:facet>
+
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton value="Cancelar" 
+                                                 action="#{controleDisciplina.cancelar()}"
+                                                 ajax="false"
+                                                 immediate="true"/>
+                                <p:commandButton value="Salvar"
+                                                 action="#{controleDisciplina.salvar()}"
+                                                 ajax="false"
+                                                 icon="ui-icon-disk"/>
+
+                            </div>
+
+                        </f:facet>
+                        <p:outputLabel value="ID"/>
+                        <p:inputText value="#{controleDisciplina.obj.id}"
+                                     readonly="true"
+                                     size="5"/>
+                        <p:outputLabel value="Nome"/>
+                        <p:inputText value="#{controleDisciplina.obj.nome}"/>
+                        <p:outputLabel value="Descrição"/>
+                        <p:inputText value="#{controleDisciplina.obj.descricao}"/>
+                        <p:outputLabel value="Carga Horaria"/>
+                        <p:inputText value="#{controleDisciplina.obj.cargaHoraria}"/>
+                        <p:outputLabel value="Conhecimentos Minimos"/>
+                        <p:inputText value="#{controleDisciplina.obj.conhecimentosMininos}"/>
+                        <p:outputLabel value="Curso"/>
+                        <p:selectOneMenu id="selectCurso" 
+                                         value="#{controleDisciplina.obj.curso}"
+                                         filter="true"
+                                         filterMatchMode="startWith">
+                            <f:converter converterId="converterCurso" />
+                            <f:selectItem noSelectionOption="true"
+                                          itemLabel="Selecione um registro"/>
+                            <f:selectItems value="#{controleDisciplina.daoCurso.listaObjetos}"
+                                           var="p"
+                                           itemLabel="#{p.nome}"/>
+                        </p:selectOneMenu>                       
+   
+                    </p:panelGrid>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
